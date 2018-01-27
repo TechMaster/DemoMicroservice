@@ -1,7 +1,7 @@
 const express = require('express')
 const http = require('http')
 // Constants
-const PORT = 3000
+const PORT = 8000
 const HOST = '0.0.0.0'
 
 // App
