@@ -9,7 +9,7 @@ namespace blog.Controllers
     [Route("/")]
     public class HomeController : Controller
     {
-        // GET /posts
+        // Home page
         [HttpGet]
         public string Get()
         {
