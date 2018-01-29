@@ -1,0 +1,22 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.6
+    ports:
+      - "5432"
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+
+  go:
+    build:
+      context: ./api
+      args:
+        app_env: ${APP_ENV}
+    volumes:
+      - ./api:/go/src/api
+    ports:
+      - "8001:8001"
+    links:
+      - db
+
