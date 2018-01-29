@@ -12,8 +12,7 @@ app.get('/', (req, res) => {
   res.send('<h1>This is Node.js app</h1>')
 })
 
-app.get('/customer', (req, res) => {
-  //res.setHeader('Content-Type', 'application/json')
+app.get('/list', (req, res) => {
   res.json({"name":"John","age":30, "cars":[ "Ford", "BMW", "Fiat" ]})
 })
 const server = http.createServer(app)
