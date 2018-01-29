@@ -1,0 +1,29 @@
+version: '3'
+services:
+  web:
+    container_name: aspnetcore
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - entry_point=["dotnet", "blog.dll"]
+    depends_on:
+      - mssqlserver
+    ports:
+      - "8002:80"
+    restart: always
+    logging:
+      options:
+        max-size: 10m
+  mssqlserver:
+    container_name: sqlserver
+    image: microsoft/mssql-server-linux:2017-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=SA123456!
+    ports:
+      - "1433:1433"
+    restart: always
+    logging:
+      options:
+        max-size: 1m

@@ -14,6 +14,6 @@ namespace blog.Models
 
         public DateTime Published { get; set; }
 
-        public bool isActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

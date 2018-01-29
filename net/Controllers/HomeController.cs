@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace blog.Controllers
 {
+
     [Route("/")]
     public class HomeController : Controller
     {
