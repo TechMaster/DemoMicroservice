@@ -1,16 +1,22 @@
-# Hướng dẫn lập trình Golang Web trong microservice.
-# Hướng dẫn
+# Cấu trúc
+Thư mục api chưa mã nguồn Golang. Thư mục vendor chưa code kết nối vào Postgresql.
+Trong file docker_compose.yml tạo ra một Postgresql server có host name là go_db
 
+# Chạy thử
+Kéo source code về, build và run bằng docker-compose:
+```
+cd go/api_db
+docker-compose up -d
+curl http://localhost:8001/books
+```
 
- <p>Kéo source code về, build và run bằng docker-compose:</p>
- 
-  `cd go/go_api` 
-  
-  `docker-compose up -d`
- <p>Truy cập website ở cổng </p>
- 
-  localhost:[8001](http://localhost:8001)
- 
-  ## Cấu hình
-  <p>Build qua image golang (./api/Dockerfile)</p>
-  <p>Cơ sở dữ liệu (postgres:9.6) trong docker-compose.yml
+# Cần cải tiến thêm
+- Hãy chia việc build container chứa REST server là 'api_book' thành 2 bước:
+  - Bước 1: sử dụng container golang:alpine có đủ compiler để biên dịch
+  - Bước 2: copy file binary biên dịch bước 1 vào container sử dụng image gọn hơn là alpine:latest
+Tham khảo [Docker multi stage build](https://docs.docker.com/engine/userguide/eng-image/multistage-build/)
+- Truyền tham số động vào container chứ không viết cứng nhắc trong file mã nguồn go.
+Đoạn code trong file go/api_db/api/vendor/database/init.go rất khó bảo trì
+```go
+  connectionParams := "dbname=" + dbname + " user=docker password=docker sslmode=disable host=go_db"
+```

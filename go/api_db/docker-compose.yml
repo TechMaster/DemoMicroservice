@@ -1,0 +1,25 @@
+version: '3.3' 
+services: 
+  api_book: 
+    container_name: 'api_book' 
+    depends_on: 
+      - go_db 
+    build: 
+      context: ./api
+    image: api_book:latest
+    ports: 
+      - '8001:8001' 
+    networks: 
+      - db 
+  go_db: 
+    image: 'postgres:alpine' 
+    container_name: 'go_db' 
+    ports: 
+      - '5432' 
+    environment: 
+      - POSTGRES_USER=docker 
+      - POSTGRES_PASSWORD=docker 
+    networks: 
+      - db 
+networks: 
+  db:
