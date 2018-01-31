@@ -5,7 +5,7 @@ Trong file docker_compose.yml tạo ra một Postgresql server có host name là
 # Chạy thử
 Kéo source code về, build và run bằng docker-compose:
 ```
-cd go/api_db
+cd book/api_book
 docker-compose up -d
 curl http://localhost:8001/books
 ```
@@ -16,7 +16,7 @@ curl http://localhost:8001/books
   - Bước 2: copy file binary biên dịch bước 1 vào container sử dụng image gọn hơn là alpine:latest
 Tham khảo [Docker multi stage build](https://docs.docker.com/engine/userguide/eng-image/multistage-build/)
 - Truyền tham số động vào container chứ không viết cứng nhắc trong file mã nguồn go.
-Đoạn code trong file go/api_db/api/vendor/database/init.go rất khó bảo trì
+Đoạn code trong file go/api_book/api/vendor/database/init.go rất khó bảo trì
 ```go
   connectionParams := "dbname=" + dbname + " user=docker password=docker sslmode=disable host=go_db"
 ```

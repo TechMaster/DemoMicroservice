@@ -38,7 +38,7 @@ func indexPostHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 
 func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	setCors(w)
-	fmt.Fprintf(w, "This is the api")
+	fmt.Fprintf(w, "<h1>Book REST API by Golang</h1>")
 }
 
 func setCors(w http.ResponseWriter) {

@@ -1,27 +1,27 @@
 # Demo hệ thống Microservice
 
 Hệ thống sẽ gồm có các container như sau:
-1. Nginx đóng vai trò reverse proxy: thầy Cường
-2. Node app cổng 8000 kết nối vào CSDL Mongo DB: cô Linh
-3. Golang app cổng 8001 kết nối vào CSDL Postgresql: chú Long
-4. ASP.net MVC Core cổng 8002 kết nối vào CSDL Microsoft SQL Server 2017: thầy Huy
+1. Nginx đóng vai trò reverse proxy, host: api_gateway
+2. Node.js REST, host api_customer, phục vụ ở cổng 8000, kết nối vào CSDL Mongo DB
+3. Golang REST, host api_book, phục vụ ở cổng 8001, kết nối vào CSDL Postgresql host go_db
+4. ASP.net MVC Core REST, host course,cổng 8002 kết nối vào CSDL Microsoft SQL Server 2017, host 
 
 ```
                            +-----------------+           +-------------+
                  /customer/|                 |           |             |
-                 +--------->  nodeapp:8000   +----------->  mongoDB    |
+                 +--------->  Node.js:8000   +----------->  mongoDB    |
                  |         |                 |           |             |
                  |         +-----------------+           +-------------+
                  |
 +-------------+  |         +-----------------+           +-------------+
 |             |  |/book/   |                 |           |             |
-| Nginx Proxy +------------>  goapp:8001     +----------->  PostgreSQL |
+| Nginx Proxy +------------>  Golang:8001    +----------->  PostgreSQL |
 |             |  |         |                 |           |             |
 +-------------+  |         +-----------------+           +-------------+
                  |
                  |         +-----------------+           +-------------+
                  |/blog/   |                 |           |             |
-                 +--------->  asp.net:8002   +----------->  MS-SQL2017 |
+                 +--------->  Asp.net:8002   +----------->  MS-SQL2017 |
                            |                 |           |             |
                            +-----------------+           +-------------+
                                     X
@@ -36,13 +36,13 @@ Hệ thống sẽ gồm có các container như sau:
 Git Repo
    +
    |
-   +---+nginx
+   +---+gateway
    |
-   +---+node
+   +---+customer
    |
-   +---+go
+   +---+book
    |
-   +---+net
+   +---+course
    |
    +---+documents
    |
@@ -55,7 +55,10 @@ Git Repo
 
 ```
 git clone https://github.com/TechMaster/DemoMicroservice.git
+docker-compose up -d
 ```
+Lệnh trên sẽ khởi động gateway và các REST service.
+
 Kiểm tra NodeApp container chạy ok không thì vào thư mục node, chạy file build.sh nếu có dữ
 liệu trả về là ok
 ```
