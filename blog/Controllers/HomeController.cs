@@ -14,7 +14,7 @@ namespace blog.Controllers
         [HttpGet]
         public string Get()
         {
-            return "Blog APIs";
+            return "<h1>Blog REST API by ASP.net MVC Core</h1>";
         }
     }
 }
