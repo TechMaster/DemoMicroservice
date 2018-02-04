@@ -1,6 +1,9 @@
 package database
 
 import (
+	"encoding/json"
+	_ "io/ioutil"
+	"os"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -16,23 +19,30 @@ type Post struct {
 	Book   string
 }
 
-func addDatabase(dbname string) error {
-	// create database with dbname, won't do anything if db already exists
-	DB.Exec("CREATE DATABASE " + dbname)
+type Data struct {
+    Database struct {
+        User     string `json:"user"`
+		Password string `json:"password"`
+		Host string `json:"host"`
+    } `json:"database"`
+}
 
-	// connect to newly created DB (now has dbname param)
-	connectionParams := "dbname=" + dbname + " user=docker password=docker sslmode=disable host=go_db"
-	DB, err = gorm.Open("postgres", connectionParams)
-	if err != nil {
-		return err
-	}
+func LoadfileJsonDatabase(file string) Data {
+	var data Data
+	configFile, _ := os.Open(file)
+	defer configFile.Close()
 
-	return nil
+	jsonParser := json.NewDecoder(configFile)
+	jsonParser.Decode(&data)
+	return data
 }
 
 func Init() (*gorm.DB, error) {
+	// read Json Database File
+	database_json := LoadfileJsonDatabase("database.json")
+
 	// set up DB connection and then attempt to connect 5 times over 25 seconds
-	connectionParams := "user=docker password=docker sslmode=disable host=go_db"
+	connectionParams := "user=" + database_json.Database.User + " password=" + database_json.Database.Password + " sslmode=disable host="+ database_json.Database.Host +""
 	for i := 0; i < 5; i++ {
 		DB, err = gorm.Open("postgres", connectionParams) // gorm checks Ping on Open
 		if err == nil {
@@ -53,6 +63,10 @@ func Init() (*gorm.DB, error) {
 	testPost := Post{Author: "Tô Hoài", Book: "Dế mèn Phiêu Lưu Ký"}
 	DB.Create(&testPost)
 	testPost = Post{Author: "Nguyễn Du", Book: "Truyện Kiều"}
+	DB.Create(&testPost)
+	testPost = Post{Author: "Hạ Vũ", Book: "Hôm nay tôi thất tình"}
+	DB.Create(&testPost)
+	testPost = Post{Author: "O.Henry", Book: "Chiếc lá cuối cùng"}
 	DB.Create(&testPost)
 
 	return DB, err

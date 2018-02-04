@@ -1,0 +1,12 @@
+{
+    "database": {
+        "user": "docker",
+        "password": "docker",
+        "host": "go_db"
+    },
+    "database2": {
+      "host": "",
+      "password": "",
+      "host": ""
+  }
+}
